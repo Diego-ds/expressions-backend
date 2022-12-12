@@ -6,14 +6,7 @@ pipeline {
         maven "maven_3_8_6"
     }
 
-    stages {
-        stage('Fetch') {
-            steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/Diego-ds/expressions-backend'
-            }
-		}
-		
+    stages {		
 		stage('Compile'){
 			steps{
                // Run Maven on a Unix agent.
