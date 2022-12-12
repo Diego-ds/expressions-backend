@@ -12,8 +12,6 @@ class ExpressionsApplicationTests {
 	void contextLoads() {
 		boolean result = true;
 		assertTrue(result);
-		result = false;
-		assertTrue(result);
 	}
 
 }
