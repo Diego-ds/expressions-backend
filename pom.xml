@@ -11,6 +11,7 @@
 	<groupId>com.perficient</groupId>
 	<artifactId>expressions</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>expressions</name>
 	<description>Rule engine application for Perficient bootcamp</description>
 	<properties>
