@@ -1,6 +1,7 @@
 package com.perficient.expressions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,11 @@ class ExpressionsApplicationTests {
 		assertTrue(result);
 		result = false;
 		assertTrue(result);
+	}
+
+	@Test
+	public void test(){
+		fail();
 	}
 
 }
