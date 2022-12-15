@@ -1,9 +1,7 @@
 package com.perficient.expressions.services.implementation;
 
-import java.util.List;
 
 import org.bson.Document;
-import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.client.FindIterable;
@@ -16,9 +14,9 @@ public class RowServiceImp implements IRowService {
     IRow rowRepository;
 
     @Override
-    public List<JsonObject> applyQuery(String rule) { 
+    public FindIterable<Document>  applyQuery(String rule) { 
         //to-do realizar manejo de la regla
-        return rowRepository.customQuery(rule);
+        return rowRepository.customQuery(null);
     }
 
     @Override
