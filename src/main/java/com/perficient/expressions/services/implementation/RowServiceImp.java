@@ -15,7 +15,7 @@ public class RowServiceImp implements IRowService {
 
     @Override
     public FindIterable<Document>  applyQuery(String rule) { 
-        //to-do realizar manejo de la regla
+        
         return rowRepository.customQuery(null);
     }
 

@@ -20,8 +20,13 @@ public class RowRepositoryTest {
     IRow repo;
 
     @Test
-	void contextLoads() {
+	void findAllTest() {
         FindIterable<Document> result = repo.findAll();
+        for (Document document : result) {
+            System.out.println("item "+document.get("item"));
+            System.out.println("price "+document.get("price"));
+            System.out.println("quantity "+document.get("quantity"));
+        }
 		assertNotNull(result);
 	}
 
@@ -31,11 +36,38 @@ public class RowRepositoryTest {
 
         FindIterable<Document> result = repo.customQuery(filter);
 
-        for(Document data : result) {
-            System.out.println(data.get("item"));
-            System.out.println(data.get("price"));
-            System.out.println(data.get("quantity"));
-            System.out.println();
+        for(Document document : result) {
+            System.out.println("item "+document.get("item"));
+            System.out.println("price "+document.get("price"));
+            System.out.println("quantity "+document.get("quantity"));
+        }
+        assertNotNull(result);
+    }
+
+    @Test
+    void customQueryTest2() {
+        Bson filter = Filters.and(Filters.or(Filters.gt("qty", 8), Filters.eq("color", "pink")),Filters.lt(null, null));
+
+        FindIterable<Document> result = repo.customQuery(filter);
+
+        for(Document document : result) {
+            System.out.println("item "+document.get("item"));
+            System.out.println("price "+document.get("price"));
+            System.out.println("quantity "+document.get("quantity"));
+        }
+        assertNotNull(result);
+    }
+
+    @Test
+    void customQueryTest3() {
+        Bson filter = Filters.where("this.quantity < this.price");
+
+        FindIterable<Document> result = repo.customQuery(filter);
+
+        for(Document document : result) {
+            System.out.println("item "+document.get("item"));
+            System.out.println("price "+document.get("price"));
+            System.out.println("quantity "+document.get("quantity"));
         }
         assertNotNull(result);
     }
