@@ -1,8 +1,6 @@
 package com.perficient.expressions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,5 @@ public class RowRepositoryTest {
     @Test
 	void contextLoads() {
 		assertNotNull(repo.findAll());
-        assertTrue(repo.findAll().size()>0);
 	}
 }

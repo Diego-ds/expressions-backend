@@ -1,6 +1,5 @@
 package com.perficient.expressions.repositories.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.perficient.expressions.repositories.interfaces.IRow;
 
@@ -19,18 +19,9 @@ public class RowImp implements IRow{
     MongoTemplate mongoTemplate;
 
     @Override
-    public List<Document> findAll() {
+    public FindIterable<Document> findAll() {
         MongoCollection<Document> collection = mongoTemplate.getCollection("test");
-        List<Document> rows = new ArrayList<Document>();;
-        for (String name :  mongoTemplate.getCollectionNames()) {
-            System.out.println(name);
-        }
-        for (Document document : collection.find()) {
-            System.out.println("Item "+document.getString("item"));
-            System.out.println("Price "+document.get("price"));
-            rows.add(document);
-        }
-        return rows;
+        return collection.find();
     }
 
     @Override

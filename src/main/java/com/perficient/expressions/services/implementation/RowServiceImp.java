@@ -6,6 +6,7 @@ import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.mongodb.client.FindIterable;
 import com.perficient.expressions.repositories.interfaces.IRow;
 import com.perficient.expressions.services.interfaces.IRowService;
 
@@ -21,7 +22,7 @@ public class RowServiceImp implements IRowService {
     }
 
     @Override
-    public List<Document> findAll() {
+    public FindIterable<Document> findAll() {
         return rowRepository.findAll();
     }
     
