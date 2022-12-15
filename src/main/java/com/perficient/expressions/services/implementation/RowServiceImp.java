@@ -2,6 +2,7 @@ package com.perficient.expressions.services.implementation;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +21,7 @@ public class RowServiceImp implements IRowService {
     }
 
     @Override
-    public List<JsonObject> findAll() {
+    public List<Document> findAll() {
         return rowRepository.findAll();
     }
     
