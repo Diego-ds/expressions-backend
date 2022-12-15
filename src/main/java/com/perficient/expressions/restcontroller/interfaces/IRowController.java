@@ -6,10 +6,10 @@ import org.bson.json.JsonObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.perficient.expressions.model.RuleRequest;
+import com.perficient.expressions.model.RuleQuery;
 
 public interface IRowController {
     public ResponseEntity<List<JsonObject>> findAll();
     //to-do crear objeto custom para agregar reglas 
-    public ResponseEntity<List<JsonObject>> applyQuery(@RequestBody RuleRequest query);
+    public ResponseEntity<List<JsonObject>> applyQuery(@RequestBody RuleQuery query);
 }
