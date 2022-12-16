@@ -78,7 +78,7 @@ public class RowRepositoryTest {
 
     @Test
     void customQueryTest4() {
-        String rule = "(Nombre = $Ciudad and Nombre != marcela) or (Cantidad > 12)";
+        String rule = "(Nombre = $Ciudad and (Nombre != marcela or Cantidad > 12)) or Cantidad < 3";
 
         // split expressions in parenthesis from rule
         List<String> matchList = new ArrayList<String>();
