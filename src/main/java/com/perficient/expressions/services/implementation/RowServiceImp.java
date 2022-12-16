@@ -26,28 +26,35 @@ public class RowServiceImp implements IRowService {
         // le llega convertido en peticion de mongodb
         // las une y la envía al metodo customQuery
 
+        // split string into expressions 
+        String[] expressions = rule.split(" ");
         return rowRepository.customQuery(null);
     }
 
     private Bson createNumericFilter(String column, String operator, String value) {
         switch (operator) {
             case "=":
-                return Filters.eq(column, value);
+                return Filters.eq(column, Double.parseDouble(value));
             case "!=":
-                return Filters.ne(column, value);
+                return Filters.ne(column, Double.parseDouble(value));
             case ">":
-                return Filters.gt(column, value);
+                return Filters.gt(column, Double.parseDouble(value));
             case "<":
-                return Filters.lt(column, value);
+                return Filters.lt(column, Double.parseDouble(value));
             default:
                 return null;
         }
     }
 
     private Bson createStringFilter(String column, String operator, String value) {
-
-        return null;
-
+        switch (operator) {
+            case "=":
+                return Filters.eq(column, value);
+            case "!=":
+                return Filters.ne(column, value);
+            default:
+                return null;
+        }
     }
 
     private Bson createBooleanFilter(String column, String operator, String value) {
@@ -55,7 +62,7 @@ public class RowServiceImp implements IRowService {
     }
 
     private Bson createColumnsFilter(String column, String operator, String value) {
-        value = value.replace("'", "");
+        value = value.replace("$", "");
 
         column = "this." + column;
         value = "this." + value;

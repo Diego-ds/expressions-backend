@@ -2,6 +2,11 @@ package com.perficient.expressions;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +17,6 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import com.perficient.expressions.repositories.interfaces.IRow;
 
-
 @SpringBootTest
 public class RowRepositoryTest {
 
@@ -20,15 +24,15 @@ public class RowRepositoryTest {
     IRow repo;
 
     @Test
-	void findAllTest() {
+    void findAllTest() {
         FindIterable<Document> result = repo.findAll();
         for (Document document : result) {
-            System.out.println("item "+document.get("item"));
-            System.out.println("price "+document.get("price"));
-            System.out.println("quantity "+document.get("quantity"));
+            System.out.println("item " + document.get("item"));
+            System.out.println("price " + document.get("price"));
+            System.out.println("quantity " + document.get("quantity"));
         }
-		assertNotNull(result);
-	}
+        assertNotNull(result);
+    }
 
     @Test
     void customQueryTest() {
@@ -36,23 +40,24 @@ public class RowRepositoryTest {
 
         FindIterable<Document> result = repo.customQuery(filter);
 
-        for(Document document : result) {
-            System.out.println("item "+document.get("item"));
-            System.out.println("price "+document.get("price"));
-            System.out.println("quantity "+document.get("quantity"));
+        for (Document document : result) {
+            System.out.println("item " + document.get("item"));
+            System.out.println("price " + document.get("price"));
+            System.out.println("quantity " + document.get("quantity"));
         }
         assertNotNull(result);
     }
 
     @Test
     void customQueryTest2() {
-        Bson filter = Filters.and(Filters.or(Filters.gt("qty", 8), Filters.eq("color", "pink")),Filters.lt(null, null));
+        Bson filter = Filters.and(Filters.or(Filters.gt("qty", 8), Filters.eq("color", "pink")),
+                Filters.lt(null, null));
         FindIterable<Document> result = repo.customQuery(filter);
 
-        for(Document document : result) {
-            System.out.println("item "+document.get("item"));
-            System.out.println("price "+document.get("price"));
-            System.out.println("quantity "+document.get("quantity"));
+        for (Document document : result) {
+            System.out.println("item " + document.get("item"));
+            System.out.println("price " + document.get("price"));
+            System.out.println("quantity " + document.get("quantity"));
         }
         assertNotNull(result);
     }
@@ -63,11 +68,28 @@ public class RowRepositoryTest {
 
         FindIterable<Document> result = repo.customQuery(filter);
 
-        for(Document document : result) {
-            System.out.println("item "+document.get("item"));
-            System.out.println("price "+document.get("price"));
-            System.out.println("quantity "+document.get("quantity"));
+        for (Document document : result) {
+            System.out.println("item " + document.get("item"));
+            System.out.println("price " + document.get("price"));
+            System.out.println("quantity " + document.get("quantity"));
         }
         assertNotNull(result);
+    }
+
+    @Test
+    void customQueryTest4() {
+        String rule = "(Nombre = $Ciudad and Nombre != marcela) or (Cantidad > 12)";
+
+        // split expressions in parenthesis from rule
+        List<String> matchList = new ArrayList<String>();
+        Pattern regex = Pattern.compile("\\((.*?)\\)");
+        Matcher regexMatcher = regex.matcher(rule);
+
+        while (regexMatcher.find()) {// Finds Matching Pattern in String
+            matchList.add(regexMatcher.group(1));// Fetching Group from String
+        }
+        for (String expression : matchList) {
+            System.out.println(expression);
+        }
     }
 }
