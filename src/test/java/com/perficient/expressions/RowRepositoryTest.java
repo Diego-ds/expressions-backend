@@ -47,7 +47,6 @@ public class RowRepositoryTest {
     @Test
     void customQueryTest2() {
         Bson filter = Filters.and(Filters.or(Filters.gt("qty", 8), Filters.eq("color", "pink")),Filters.lt(null, null));
-
         FindIterable<Document> result = repo.customQuery(filter);
 
         for(Document document : result) {
