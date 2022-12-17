@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,7 @@ import org.bson.conversions.Bson;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import com.perficient.expressions.repositories.interfaces.IRow;
+import com.perficient.expressions.services.implementation.RowServiceImp;
 
 @SpringBootTest
 public class RowRepositoryTest {
@@ -78,18 +80,16 @@ public class RowRepositoryTest {
 
     @Test
     void customQueryTest4() {
-        String rule = "(Nombre = $Ciudad and (Nombre != marcela or Cantidad > 12)) or Cantidad < 3";
+        RowServiceImp service = new RowServiceImp();
+        //String rule = "(Nombre = $Ciudad and (Nombre != marcela or Cantidad > 12)) or Cantidad < $3";
+        String rule = "((Cantidad = patata and almuerzo < 20) or muerto = false) and mono = $fruta";
+        
+        /*
+         * And Filter{filters=[Or Filter{filters=[And Filter{filters=[Filter{fieldName='Cantidad', value=patata}, 
+         * Operator Filter{fieldName='almuerzo', operator='$lt', value=20.0}]}, 
+         * Filter{fieldName='muerto', value=false)}]}, {"$where": "this.mono = this.fruta"}]}
+         */
 
-        // split expressions in parenthesis from rule
-        List<String> matchList = new ArrayList<String>();
-        Pattern regex = Pattern.compile("\\((.*?)\\)");
-        Matcher regexMatcher = regex.matcher(rule);
-
-        while (regexMatcher.find()) {// Finds Matching Pattern in String
-            matchList.add(regexMatcher.group(1));// Fetching Group from String
-        }
-        for (String expression : matchList) {
-            System.out.println(expression);
-        }
+        service.applyQuery(rule);
     }
 }
