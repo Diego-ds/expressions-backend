@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
@@ -17,6 +18,7 @@ import com.perficient.expressions.services.interfaces.IRowService;
 import ch.qos.logback.core.filter.Filter;
 import lombok.val;
 
+@Service
 public class RowServiceImp implements IRowService {
 
     @Autowired

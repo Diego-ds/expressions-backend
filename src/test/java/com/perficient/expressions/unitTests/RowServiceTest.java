@@ -29,7 +29,9 @@ public class RowServiceTest {
 
     @Autowired
     IRow repo;
-
+    
+    public static final int ALL_VALUES = 9;
+    
     public ArrayList<Document> getQueryList(String rule) {
     	
     	FindIterable<Document> queryResult = service.applyQuery(rule);
@@ -54,8 +56,8 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("price < 6");
 
                 Assertions.assertEquals(result.size(), 2);
-                Assertions.assertEquals(result.get(0).get("id"), "3");
-                Assertions.assertEquals(result.get(1).get("id"), "4");
+                Assertions.assertEquals(result.get(0).get("_id"), "3");
+                Assertions.assertEquals(result.get(1).get("_id"), "4");
             }
             
             @DisplayName("Less than X Query - All values")
@@ -64,7 +66,7 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("price < 21");
 
-                Assertions.assertEquals(result.size(), 8);
+                Assertions.assertEquals(result.size(), ALL_VALUES);
             }
             
             @DisplayName("Less than X Query - No values")
@@ -87,7 +89,7 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("price > 10");
 
                 Assertions.assertEquals(result.size(), 1);
-                Assertions.assertEquals(result.get(0).get("id"), "2");
+                Assertions.assertEquals(result.get(0).get("_id"), "2");
             }
             
             @DisplayName("More than X Query - All values")
@@ -96,7 +98,7 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("price > 1");
 
-                Assertions.assertEquals(result.size(), 8);
+                Assertions.assertEquals(result.size(), ALL_VALUES);
             }
             
             @DisplayName("More than X Query - No values")
@@ -118,8 +120,8 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("quantity = 2");
 
-                Assertions.assertEquals(result.size(), 1);
-                Assertions.assertEquals(result.get(0).get("id"), "1");
+                Assertions.assertEquals(1,result.size());
+                Assertions.assertEquals( "1",result.get(0).get("_id"));
             }
             
             @DisplayName("Equals than X Query - More values")
@@ -129,16 +131,16 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("quantity = 10");
 
                 Assertions.assertEquals(result.size(), 3);
-                Assertions.assertEquals(result.get(0).get("id"), "3");
-                Assertions.assertEquals(result.get(1).get("id"), "5");
-                Assertions.assertEquals(result.get(2).get("id"), "7");
+                Assertions.assertEquals(result.get(0).get("_id"), "3");
+                Assertions.assertEquals(result.get(1).get("_id"), "5");
+                Assertions.assertEquals(result.get(2).get("_id"), "7");
             }
             
             @DisplayName("Equals than X Query - No values")
             @Test
             void numericEqualsThanXQueryTest3() {
 
-                ArrayList<Document> result = getQueryList("quantity = 7");
+                ArrayList<Document> result = getQueryList("quantity = 15");
 
                 Assertions.assertEquals(result.size(), 0);
             }
@@ -154,9 +156,9 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("price < $quantity");
 
                 Assertions.assertEquals(result.size(), 3);
-                Assertions.assertEquals(result.get(0).get("id"), "3");
-                Assertions.assertEquals(result.get(1).get("id"), "4");
-                Assertions.assertEquals(result.get(2).get("id"), "7");
+                Assertions.assertEquals(result.get(0).get("_id"), "3");
+                Assertions.assertEquals(result.get(1).get("_id"), "4");
+                Assertions.assertEquals(result.get(2).get("_id"), "7");
             }
             
             @DisplayName("Less than Column Query - More values")
@@ -165,11 +167,12 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("quantity < $price");
 
-                Assertions.assertEquals(result.size(), 4);
-                Assertions.assertEquals(result.get(0).get("id"), "1");
-                Assertions.assertEquals(result.get(1).get("id"), "2");
-                Assertions.assertEquals(result.get(2).get("id"), "6");
-                Assertions.assertEquals(result.get(3).get("id"), "8");
+                Assertions.assertEquals(5, result.size());
+                Assertions.assertEquals("1", result.get(0).get("_id"));
+                Assertions.assertEquals("2", result.get(1).get("_id"));
+                Assertions.assertEquals("6", result.get(2).get("_id"));
+                Assertions.assertEquals("8", result.get(3).get("_id"));
+                Assertions.assertEquals("9", result.get(4).get("_id"));
             }
         }
     
@@ -183,9 +186,9 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("quantity > $price");
 
                 Assertions.assertEquals(result.size(), 3);
-                Assertions.assertEquals(result.get(0).get("id"), "3");
-                Assertions.assertEquals(result.get(1).get("id"), "4");
-                Assertions.assertEquals(result.get(2).get("id"), "7");
+                Assertions.assertEquals(result.get(0).get("_id"), "3");
+                Assertions.assertEquals(result.get(1).get("_id"), "4");
+                Assertions.assertEquals(result.get(2).get("_id"), "7");
             }
             
             @DisplayName("More than Column Query - All values")
@@ -194,25 +197,26 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("price > $quantity");
 
-                Assertions.assertEquals(result.size(), 4);
-                Assertions.assertEquals(result.get(0).get("id"), "1");
-                Assertions.assertEquals(result.get(1).get("id"), "2");
-                Assertions.assertEquals(result.get(2).get("id"), "6");
-                Assertions.assertEquals(result.get(3).get("id"), "8");
+                Assertions.assertEquals(result.size(), 5);
+                Assertions.assertEquals(result.get(0).get("_id"), "1");
+                Assertions.assertEquals(result.get(1).get("_id"), "2");
+                Assertions.assertEquals(result.get(2).get("_id"), "6");
+                Assertions.assertEquals(result.get(3).get("_id"), "8");
+                Assertions.assertEquals(result.get(4).get("_id"), "9");
             }
         }
    
         @Nested
         class EqualsThanColumn {
         	
-        	@DisplayName("Equals than Column Query")
+        	@DisplayName("Equals than Column Query - One value")
             @Test
             void numericEqualsThanColumnQueryTest1() {
 
                 ArrayList<Document> result = getQueryList("quantity = $price");
 
-                Assertions.assertEquals(result.size(), 1);
-                Assertions.assertEquals(result.get(0).get("id"), "5");           
+                Assertions.assertEquals("1", result.size());
+                Assertions.assertEquals("5", result.get(0).get("_id"));           
             }
         }
     }
@@ -230,7 +234,7 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("item = jkl");
 
                 Assertions.assertEquals(result.size(), 1);
-                Assertions.assertEquals(result.get(0).get("id"), "2");
+                Assertions.assertEquals(result.get(0).get("_id"), "2");
             }
             
             @DisplayName("Equals than X Query - More values")
@@ -240,9 +244,9 @@ public class RowServiceTest {
                 ArrayList<Document> result = getQueryList("item = abc");
 
                 Assertions.assertEquals(result.size(), 3);
-                Assertions.assertEquals(result.get(0).get("id"), "1");
-                Assertions.assertEquals(result.get(1).get("id"), "5");
-                Assertions.assertEquals(result.get(2).get("id"), "8");
+                Assertions.assertEquals(result.get(0).get("_id"), "1");
+                Assertions.assertEquals(result.get(1).get("_id"), "5");
+                Assertions.assertEquals(result.get(2).get("_id"), "8");
             }
             
             @DisplayName("Equals than X Query - No values")
@@ -258,18 +262,14 @@ public class RowServiceTest {
         @Nested
         class NotEqualsThanX {
         	
-        	@DisplayName("Not Equals than X Query - Few values")
+        	@DisplayName("Not Equals than X Query - One value")
             @Test
             void textNotEqualsThanXQueryTest1() {
 
-                ArrayList<Document> result = getQueryList("item != abc");
+                ArrayList<Document> result = getQueryList("type != material");
 
-                Assertions.assertEquals(result.size(), 5);
-                Assertions.assertEquals(result.get(0).get("id"), "2");
-                Assertions.assertEquals(result.get(1).get("id"), "3");
-                Assertions.assertEquals(result.get(2).get("id"), "4");
-                Assertions.assertEquals(result.get(3).get("id"), "6");
-                Assertions.assertEquals(result.get(4).get("id"), "7");
+                Assertions.assertEquals(result.size(), 1);
+                Assertions.assertEquals(result.get(0).get("_id"), "9");
             }
             
             @DisplayName("Not Equals than X Query - All values")
@@ -278,24 +278,124 @@ public class RowServiceTest {
 
                 ArrayList<Document> result = getQueryList("item != nml");
 
-                Assertions.assertEquals(result.size(), 8);
+                Assertions.assertEquals(result.size(), ALL_VALUES);
+            }
+            
+            @DisplayName("Not Equals than X Query - No values")
+            @Test
+            void textNotEqualsThanXQueryTest3() {
+
+                ArrayList<Document> result = getQueryList("type != food");
+
+                Assertions.assertEquals(result.size(), 0);
             }
         }
         
         @Nested
         class EqualsThanColumn {
         	
-        	@DisplayName("Equals than Column Query")
+        	@DisplayName("Equals than Column Query - One Value")
             @Test
             void textEqualsThanColumnQueryTest1() {
-        		//TODO valores para probar
+        		ArrayList<Document> result = getQueryList("type = $kind");
+
+                Assertions.assertEquals(1, result.size());
+                Assertions.assertEquals(result.get(0).get("_id"), "9");
+            }
+        	
+        	@DisplayName("Equals than Column Query - No Values")
+            @Test
+            void textEqualsThanColumnQueryTest2() {
+        		ArrayList<Document> result = getQueryList("item = $kind");
+
+                Assertions.assertEquals(0, result.size());
             }
         }
         
         @Nested
         class NotEqualsThanColumn {
         	
-        	//TODO valores para probar 
+        	@DisplayName("Not Equals than Column Query - All values")
+            @Test
+            void textNotEqualsThanColumnQueryTest1() {
+        		ArrayList<Document> result = getQueryList("kind != $item");
+
+                Assertions.assertEquals(result.size(), ALL_VALUES);
+            }
+        	
+        	@DisplayName("Not Equals than Column Query - More values")
+            @Test
+            void textNotEqualsThanColumnQueryTest2() {
+        		ArrayList<Document> result = getQueryList("type != $kind");
+
+                Assertions.assertEquals(result.size(), 7);
+            }	
         }
+    }
+    
+    @Nested
+    class booleanQueries {
+    	
+    	@Nested
+    	class IsTrue{
+    		
+    		@DisplayName("Is true Query 1")
+            @Test
+            void booleanTrueQueryTest1() {
+
+                ArrayList<Document> result = getQueryList("perishable = true");
+
+                Assertions.assertEquals(4, result.size());
+                Assertions.assertEquals("3", result.get(0).get("_id"));
+                Assertions.assertEquals("4", result.get(1).get("_id"));
+                Assertions.assertEquals("5", result.get(2).get("_id"));
+                Assertions.assertEquals("9", result.get(3).get("_id"));
+            }
+    		
+    		@DisplayName("Is true Query 2")
+            @Test
+            void booleanTrueQueryTest2() {
+
+                ArrayList<Document> result = getQueryList("natural = true");
+
+                Assertions.assertEquals(5, result.size());
+                Assertions.assertEquals("1", result.get(0).get("_id"));
+                Assertions.assertEquals("3", result.get(1).get("_id"));
+                Assertions.assertEquals("5", result.get(2).get("_id"));
+                Assertions.assertEquals("8", result.get(3).get("_id"));
+                Assertions.assertEquals("9", result.get(4).get("_id"));
+            }
+    	}
+    	
+    	@Nested
+    	class IsFalse{
+    		
+    		@DisplayName("Is false Query 1")
+            @Test
+            void booleanFalseQueryTest1() {
+
+                ArrayList<Document> result = getQueryList("perishable = false");
+
+                Assertions.assertEquals(5, result.size());
+                Assertions.assertEquals("1", result.get(0).get("_id"));
+                Assertions.assertEquals("2", result.get(1).get("_id"));
+                Assertions.assertEquals("6", result.get(2).get("_id"));
+                Assertions.assertEquals("7", result.get(3).get("_id"));
+                Assertions.assertEquals("8", result.get(4).get("_id"));
+            }
+    		
+    		@DisplayName("Is false Query 2")
+            @Test
+            void booleanFalseQueryTest2() {
+
+                ArrayList<Document> result = getQueryList("natural = false");
+
+                Assertions.assertEquals(4, result.size());
+                Assertions.assertEquals("2", result.get(0).get("_id"));
+                Assertions.assertEquals("4", result.get(1).get("_id"));
+                Assertions.assertEquals("6", result.get(2).get("_id"));
+                Assertions.assertEquals("7", result.get(3).get("_id"));
+            }
+    	}
     }
 }
