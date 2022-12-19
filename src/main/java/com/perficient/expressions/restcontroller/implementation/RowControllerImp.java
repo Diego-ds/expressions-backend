@@ -1,5 +1,6 @@
 package com.perficient.expressions.restcontroller.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.json.JsonObject;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.perficient.expressions.model.RuleQuery;
 import com.perficient.expressions.restcontroller.interfaces.IRowController;
@@ -28,24 +30,28 @@ public class RowControllerImp implements IRowController {
 
     @Override
     @GetMapping("/")
-    public ResponseEntity<FindIterable<Document>> findAll() {
-        // TODO Auto-generated method stub
-        return ResponseEntity.ok().body(rowService.findAll());
+    public ResponseEntity<List<Document>> findAll() {
+    	FindIterable<Document> queryResult = rowService.findAll();
+    	ArrayList<Document> list = rowService.IterableToList(queryResult);
+        return ResponseEntity.ok().body(list);
     }
 
     @Override
     @PostMapping("/")
-    public ResponseEntity<FindIterable<Document>> applyQuery(RuleQuery query) {
+    public ResponseEntity<List<Document>> applyQuery(RuleQuery query) {
         // TODO Auto-generated method stub
-        FindIterable<Document> response = null;
+    	
+    	System.out.println(query.getRule().length());
+        ArrayList<Document> responseList = null;
 
         try{
-            response = rowService.applyQuery(query.getRule());
+            FindIterable<Document> response = rowService.applyQuery(query.getRule());
+            responseList = rowService.IterableToList(response);
         }catch(IllegalArgumentException e){
-            ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(null);
         }
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(responseList);
     }
     
 }

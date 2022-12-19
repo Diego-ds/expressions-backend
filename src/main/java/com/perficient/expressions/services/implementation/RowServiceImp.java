@@ -10,6 +10,7 @@ import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
 import com.perficient.expressions.repositories.interfaces.IRow;
@@ -29,10 +30,12 @@ public class RowServiceImp implements IRowService {
     }
     
     @Override
-    public FindIterable<Document> applyQuery(String rule) {
-
-        if(rule==null || rule.isEmpty()) throw new IllegalArgumentException("Rule cannot be null or empty");
-
+    public FindIterable<Document> applyQuery(String rule) throws IllegalArgumentException {
+    	
+        if (rule==null || rule.length() == 0 || rule.equals("")) {
+        	throw new IllegalArgumentException("Rule cannot be null or empty");
+        }
+        
         Bson filter = createFilter(rule);
         return rowRepository.customQuery(filter);
     }
@@ -143,6 +146,15 @@ public class RowServiceImp implements IRowService {
     @Override
     public FindIterable<Document> findAll() {
         return rowRepository.findAll();
+    }
+    
+    public ArrayList<Document> IterableToList(FindIterable<Document> documents) {
+ 
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<Document> list = new ArrayList<>();
+
+        documents.map(d -> mapper.convertValue(d, Document.class)).into(list);
+        return list;
     }
 
 }

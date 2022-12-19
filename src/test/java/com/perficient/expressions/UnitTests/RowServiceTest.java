@@ -43,6 +43,13 @@ public class RowServiceTest {
     void nullRuleTest() {
     	
     	when(repo.customQuery(null)).thenReturn(null);
+    	Assertions.assertThrows(IllegalArgumentException.class, () -> service.applyQuery(null));
+    }
+    
+    @Test
+    void emptyRuleTest() {
+    	
+    	when(repo.customQuery(null)).thenReturn(null);
     	Assertions.assertThrows(IllegalArgumentException.class, () -> service.applyQuery(""));
     }
     

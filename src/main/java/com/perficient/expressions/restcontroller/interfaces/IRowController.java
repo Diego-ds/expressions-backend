@@ -11,6 +11,6 @@ import com.perficient.expressions.model.RuleQuery;
 import org.bson.Document;
 
 public interface IRowController {
-    public ResponseEntity<FindIterable<Document>> findAll();
-    public ResponseEntity<FindIterable<Document>> applyQuery(@RequestBody RuleQuery query);
+    public ResponseEntity<List<Document>> findAll();
+    public ResponseEntity<List<Document>> applyQuery(@RequestBody RuleQuery query);
 }
