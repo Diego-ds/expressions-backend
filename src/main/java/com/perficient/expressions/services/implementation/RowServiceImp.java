@@ -24,6 +24,10 @@ public class RowServiceImp implements IRowService {
     @Autowired
     IRow rowRepository;
 
+    public RowServiceImp (IRow rowRepository) {
+    	this.rowRepository = rowRepository;
+    }
+    
     @Override
     public FindIterable<Document> applyQuery(String rule) {
 
