@@ -12,6 +12,5 @@ import org.bson.Document;
 
 public interface IRowController {
     public ResponseEntity<FindIterable<Document>> findAll();
-    //to-do crear objeto custom para agregar reglas 
     public ResponseEntity<FindIterable<Document>> applyQuery(@RequestBody RuleQuery query);
 }

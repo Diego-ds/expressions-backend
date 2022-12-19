@@ -47,7 +47,5 @@ public class RowControllerImp implements IRowController {
 
         return ResponseEntity.ok().body(response);
     }
-
-
     
 }
