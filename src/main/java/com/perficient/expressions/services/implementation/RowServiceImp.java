@@ -27,6 +27,8 @@ public class RowServiceImp implements IRowService {
     @Override
     public FindIterable<Document> applyQuery(String rule) {
 
+        if(rule==null || rule.isEmpty()) throw new IllegalArgumentException("Rule cannot be null or empty");
+
         Bson filter = createFilter(rule);
         return rowRepository.customQuery(filter);
     }
@@ -44,19 +46,6 @@ public class RowServiceImp implements IRowService {
             if(expression.charAt(0)=='('){
                 expression = expression.substring(1, expression.length()-1);
                 tempFilter = createFilter(expression);
-
-                if(filter==null){
-                    filter = tempFilter;
-                    continue;
-                }
-
-                if(operation.equalsIgnoreCase("and")){
-                    filter = Filters.and(filter,tempFilter);
-                    operation = "";
-                }else if(operation.equalsIgnoreCase("or")){
-                    filter = Filters.or(filter,tempFilter);
-                    operation = "";
-                }
 
             }else if(!tempExp.equalsIgnoreCase("and") && !tempExp.equalsIgnoreCase("or")){
                 String[] parts = expression.split(" ");
@@ -76,23 +65,18 @@ public class RowServiceImp implements IRowService {
                 }else{
                     tempFilter = createStringFilter(column, operator, value);
                 }
-
-                if(filter==null){
-                    filter = tempFilter;
-                    continue;
-                }
-
-                if(operation.equalsIgnoreCase("and")){
-                    filter = Filters.and(filter,tempFilter);
-                    operation = "";
-                }else if(operation.equalsIgnoreCase("or")){
-                    filter = Filters.or(filter,tempFilter);
-                    operation = "";
-                }
-
+            }
+               
+            if(filter==null){
+                filter = tempFilter;
+            }else if(operation.equalsIgnoreCase("and")){
+                filter = Filters.and(filter,tempFilter);
+                operation = "";
+            }else if(operation.equalsIgnoreCase("or")){
+                filter = Filters.or(filter,tempFilter);
+                operation = "";
             }else{
                 operation = tempExp;
-
             }
         }
         return filter;

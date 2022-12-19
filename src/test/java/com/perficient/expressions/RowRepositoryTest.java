@@ -82,7 +82,7 @@ public class RowRepositoryTest {
     void customQueryTest4() {
         RowServiceImp service = new RowServiceImp();
         //String rule = "(Nombre = $Ciudad and (Nombre != marcela or Cantidad > 12)) or Cantidad < $3";
-        String rule = "((Cantidad = patata and almuerzo < 20) or muerto = false) and mono = $fruta";
+        String rule = "Cantidad = patata and (almuerzo < 20 or (muerto = false and mono = $fruta))";
         
         /*
          * And Filter{filters=[Or Filter{filters=[And Filter{filters=[Filter{fieldName='Cantidad', value=patata}, 
