@@ -1,4 +1,4 @@
-package com.perficient.expressions.unitTests;
+package com.perficient.expressions.IntegrationTests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Nested;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,9 +53,9 @@ public class RowServiceTest {
     		@DisplayName("Less than X Query - Few values")
             @Test
             void numericLessThanXQueryTest1() {
-
+    			
                 ArrayList<Document> result = getQueryList("price < 6");
-
+                
                 Assertions.assertEquals(result.size(), 2);
                 Assertions.assertEquals(result.get(0).get("_id"), "3");
                 Assertions.assertEquals(result.get(1).get("_id"), "4");
@@ -213,9 +214,9 @@ public class RowServiceTest {
             @Test
             void numericEqualsThanColumnQueryTest1() {
 
-                ArrayList<Document> result = getQueryList("quantity = $price");
+                ArrayList<Document> result = getQueryList("quantity == $price");
 
-                Assertions.assertEquals("1", result.size());
+                Assertions.assertEquals(1, result.size());
                 Assertions.assertEquals("5", result.get(0).get("_id"));           
             }
         }
@@ -262,14 +263,13 @@ public class RowServiceTest {
         @Nested
         class NotEqualsThanX {
         	
-        	@DisplayName("Not Equals than X Query - One value")
+        	@DisplayName("Not Equals than X Query - More Values")
             @Test
             void textNotEqualsThanXQueryTest1() {
 
                 ArrayList<Document> result = getQueryList("type != material");
 
-                Assertions.assertEquals(result.size(), 1);
-                Assertions.assertEquals(result.get(0).get("_id"), "9");
+                Assertions.assertEquals(6, result.size());
             }
             
             @DisplayName("Not Equals than X Query - All values")
@@ -280,15 +280,6 @@ public class RowServiceTest {
 
                 Assertions.assertEquals(result.size(), ALL_VALUES);
             }
-            
-            @DisplayName("Not Equals than X Query - No values")
-            @Test
-            void textNotEqualsThanXQueryTest3() {
-
-                ArrayList<Document> result = getQueryList("type != food");
-
-                Assertions.assertEquals(result.size(), 0);
-            }
         }
         
         @Nested
@@ -297,16 +288,17 @@ public class RowServiceTest {
         	@DisplayName("Equals than Column Query - One Value")
             @Test
             void textEqualsThanColumnQueryTest1() {
-        		ArrayList<Document> result = getQueryList("type = $kind");
+        		ArrayList<Document> result = getQueryList("type == $kind");
 
-                Assertions.assertEquals(1, result.size());
-                Assertions.assertEquals(result.get(0).get("_id"), "9");
+                Assertions.assertEquals(2, result.size());
+                Assertions.assertEquals(result.get(0).get("_id"), "2");
+                Assertions.assertEquals(result.get(1).get("_id"), "9");
             }
         	
         	@DisplayName("Equals than Column Query - No Values")
             @Test
             void textEqualsThanColumnQueryTest2() {
-        		ArrayList<Document> result = getQueryList("item = $kind");
+        		ArrayList<Document> result = getQueryList("item == $kind");
 
                 Assertions.assertEquals(0, result.size());
             }
