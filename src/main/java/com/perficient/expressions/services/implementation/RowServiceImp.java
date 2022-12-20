@@ -107,15 +107,17 @@ public class RowServiceImp implements IRowService {
     private Bson createNumericFilter(String column, String operator, String value) {
         column = column.replace("$", "");
         value = value.replace("$", "");
+        double numericValue = Double.parseDouble(value);
+        
         switch (operator) {
             case "=":
-                return Filters.eq(column, Double.parseDouble(value));
+                return Filters.eq(column, numericValue);
             case "!=":
-                return Filters.ne(column, Double.parseDouble(value));
+                return Filters.ne(column, numericValue);
             case ">":
-                return Filters.gt(column, Double.parseDouble(value));
+                return Filters.gt(column, numericValue);
             case "<":
-                return Filters.lt(column, Double.parseDouble(value));
+                return Filters.lt(column, numericValue);
             default:
                 return null;
         }
