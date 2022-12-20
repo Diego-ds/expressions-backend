@@ -11,5 +11,5 @@ import org.bson.Document;
 public interface IRowController {
     public ResponseEntity<List<Document>> findAll();
     public ResponseEntity<Document> getColumnNames();
-    public ResponseEntity<List<Document>> applyQuery(@RequestBody RuleQuery query);
+    public ResponseEntity<List<Document>> applyQuery(RuleQuery query);
 }
