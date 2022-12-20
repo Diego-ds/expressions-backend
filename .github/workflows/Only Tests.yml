@@ -38,7 +38,7 @@ jobs:
         run: mvn clean install
         
       - name: Newman Action
-        uses: matt-ball/newman-action@master
+        uses: matt-ball/newman-action@v1.0.4
         with:
           apiKey: PMAT-01GMRDBYQA0EFN424E410FE7EA
           collection: 24971165-463b909a-c3f5-4497-b31a-41c04680ee3d
