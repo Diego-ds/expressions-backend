@@ -3,7 +3,6 @@ package com.perficient.expressions.restcontroller.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.perficient.expressions.model.RuleQuery;
 import com.perficient.expressions.restcontroller.interfaces.IRowController;
@@ -39,7 +37,6 @@ public class RowControllerImp implements IRowController {
     @Override
     @PostMapping("/")
     public ResponseEntity<List<Document>> applyQuery(RuleQuery query) {
-        // TODO Auto-generated method stub
     	
     	System.out.println(query.getRule().length());
         ArrayList<Document> responseList = null;
@@ -52,6 +49,13 @@ public class RowControllerImp implements IRowController {
         }
 
         return ResponseEntity.ok().body(responseList);
+    }
+
+    @Override
+    @GetMapping("/names/")
+    public ResponseEntity<Document> getColumnNames() {
+        Document queryResult = rowService.getColumnNames();
+        return ResponseEntity.ok().body(queryResult);
     }
     
 }

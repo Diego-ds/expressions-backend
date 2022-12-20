@@ -34,4 +34,12 @@ public class RowImp implements IRow{
         return result;
     }
 
+
+    @Override
+    public FindIterable<Document> findOne() {
+        MongoCollection<Document> collection = mongoTemplate.getCollection("test");
+        Bson filter = Filters.eq("_id", "1");
+        return collection.find(filter);
+    }
+
 }

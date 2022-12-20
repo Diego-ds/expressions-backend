@@ -12,4 +12,6 @@ public interface IRow {
 
     public FindIterable<Document> customQuery(Bson filter);
 
+    public FindIterable<Document> findOne();
+
 }

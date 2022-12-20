@@ -10,4 +10,5 @@ public interface IRowService {
     public FindIterable<Document> applyQuery(String rule);
     public FindIterable<Document> findAll();
     public ArrayList<Document> IterableToList(FindIterable<Document> documents);
+    public Document getColumnNames();
 }

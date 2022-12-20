@@ -1,7 +1,10 @@
 package com.perficient.expressions.services.implementation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,8 +19,6 @@ import com.mongodb.client.model.Filters;
 import com.perficient.expressions.repositories.interfaces.IRow;
 import com.perficient.expressions.services.interfaces.IRowService;
 
-import ch.qos.logback.core.filter.Filter;
-import lombok.val;
 
 @Service
 public class RowServiceImp implements IRowService {
@@ -155,6 +156,27 @@ public class RowServiceImp implements IRowService {
 
         documents.map(d -> mapper.convertValue(d, Document.class)).into(list);
         return list;
+    }
+
+    @Override
+    public Document getColumnNames() {
+        Document document = rowRepository.findOne().first();
+
+        Set<String> keys = document.keySet();
+        List<String> values = new ArrayList<>();
+
+        for (Object value : document.values()) {
+            values.add(value.getClass().getSimpleName());
+        }  
+
+        Map<String, String> columnNames = new HashMap<>();
+
+        int i = 0;
+        for (String key : keys) {
+            columnNames.put(key, values.get(i++));
+        }
+                    
+        return new Document(columnNames);
     }
 
 }
