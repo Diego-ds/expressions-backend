@@ -38,7 +38,6 @@ public class RowControllerImp implements IRowController {
     @PostMapping("/")
     public ResponseEntity<List<Document>> applyQuery(RuleQuery query) {
     	
-    	System.out.println(query.getRule().length());
         ArrayList<Document> responseList = null;
 
         try{

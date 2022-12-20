@@ -33,7 +33,7 @@ public class RowServiceImp implements IRowService {
     @Override
     public FindIterable<Document> applyQuery(String rule) throws IllegalArgumentException {
     	
-        if (rule==null || rule.length() == 0 || rule.equals("")) {
+        if (rule==null || rule.isEmpty()) {
         	throw new IllegalArgumentException("Rule cannot be null or empty");
         }
         
