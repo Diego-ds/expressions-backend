@@ -105,6 +105,8 @@ public class RowServiceImp implements IRowService {
 
 
     private Bson createNumericFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("$", "");
         switch (operator) {
             case "=":
                 return Filters.eq(column, Double.parseDouble(value));
@@ -120,6 +122,8 @@ public class RowServiceImp implements IRowService {
     }
 
     private Bson createStringFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("$", "");
         switch (operator) {
             case "=":
                 return Filters.eq(column, value);
@@ -131,10 +135,13 @@ public class RowServiceImp implements IRowService {
     }
 
     private Bson createBooleanFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("$", "");
         return Filters.eq(column, Boolean.parseBoolean(value));
     }
 
     private Bson createColumnsFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
         value = value.replace("$", "");
 
         column = "this." + column;
