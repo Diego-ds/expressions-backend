@@ -174,7 +174,7 @@ public class RowServiceImp implements IRowService {
 
     @Override
     public Document getColumnNames() {
-        Document document = rowRepository.findOne().first();
+        Document document = rowRepository.findAll().first();
 
         Set<String> keys = document.keySet();
         List<String> values = new ArrayList<>();
