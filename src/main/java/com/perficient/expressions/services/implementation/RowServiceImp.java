@@ -61,8 +61,8 @@ public class RowServiceImp implements IRowService {
                 String operator = parts[1];
                 String value = parts[2];
 
-                if(value.charAt(0)=='$'){
-                    tempFilter = createColumnsFilter(column, operator, value);
+                if(value.charAt(0)=='\''){
+                    tempFilter = createStringFilter(column, operator, value);
 
                 }else if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
                     tempFilter = createBooleanFilter(column, operator, value);
@@ -71,7 +71,7 @@ public class RowServiceImp implements IRowService {
                     tempFilter = createNumericFilter(column, operator, value);
 
                 }else{
-                    tempFilter = createStringFilter(column, operator, value);
+                    tempFilter = createColumnsFilter(column, operator, value);
                 }
             }
                
@@ -123,7 +123,8 @@ public class RowServiceImp implements IRowService {
 
     private Bson createStringFilter(String column, String operator, String value) {
         column = column.replace("$", "");
-        value = value.replace("$", "");
+        value = value.replace("'", "");
+
         switch (operator) {
             case "=":
                 return Filters.eq(column, value);
@@ -144,6 +145,10 @@ public class RowServiceImp implements IRowService {
         column = column.replace("$", "");
         value = value.replace("$", "");
 
+        if(operator.equalsIgnoreCase("=")){
+            operator="==";
+        } 
+        
         column = "this." + column;
         value = "this." + value;
         operator = " " + operator + " ";
