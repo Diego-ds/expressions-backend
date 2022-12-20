@@ -33,7 +33,7 @@ public class RowServiceImp implements IRowService {
     @Override
     public FindIterable<Document> applyQuery(String rule) throws IllegalArgumentException {
     	
-        if (rule==null || rule.length() == 0 || rule.equals("")) {
+        if (rule==null || rule.isEmpty()) {
         	throw new IllegalArgumentException("Rule cannot be null or empty");
         }
         
@@ -61,8 +61,8 @@ public class RowServiceImp implements IRowService {
                 String operator = parts[1];
                 String value = parts[2];
 
-                if(value.charAt(0)=='$'){
-                    tempFilter = createColumnsFilter(column, operator, value);
+                if(value.charAt(0)=='\''){
+                    tempFilter = createStringFilter(column, operator, value);
 
                 }else if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
                     tempFilter = createBooleanFilter(column, operator, value);
@@ -71,7 +71,7 @@ public class RowServiceImp implements IRowService {
                     tempFilter = createNumericFilter(column, operator, value);
 
                 }else{
-                    tempFilter = createStringFilter(column, operator, value);
+                    tempFilter = createColumnsFilter(column, operator, value);
                 }
             }
                
@@ -105,21 +105,28 @@ public class RowServiceImp implements IRowService {
 
 
     private Bson createNumericFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("$", "");
+        double numericValue = Double.parseDouble(value);
+        
         switch (operator) {
             case "=":
-                return Filters.eq(column, Double.parseDouble(value));
+                return Filters.eq(column, numericValue);
             case "!=":
-                return Filters.ne(column, Double.parseDouble(value));
+                return Filters.ne(column, numericValue);
             case ">":
-                return Filters.gt(column, Double.parseDouble(value));
+                return Filters.gt(column, numericValue);
             case "<":
-                return Filters.lt(column, Double.parseDouble(value));
+                return Filters.lt(column, numericValue);
             default:
                 return null;
         }
     }
 
     private Bson createStringFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("'", "");
+
         switch (operator) {
             case "=":
                 return Filters.eq(column, value);
@@ -131,12 +138,19 @@ public class RowServiceImp implements IRowService {
     }
 
     private Bson createBooleanFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
+        value = value.replace("$", "");
         return Filters.eq(column, Boolean.parseBoolean(value));
     }
 
     private Bson createColumnsFilter(String column, String operator, String value) {
+        column = column.replace("$", "");
         value = value.replace("$", "");
 
+        if(operator.equalsIgnoreCase("=")){
+            operator="==";
+        } 
+        
         column = "this." + column;
         value = "this." + value;
         operator = " " + operator + " ";
@@ -160,7 +174,7 @@ public class RowServiceImp implements IRowService {
 
     @Override
     public Document getColumnNames() {
-        Document document = rowRepository.findOne().first();
+        Document document = rowRepository.findAll().first();
 
         Set<String> keys = document.keySet();
         List<String> values = new ArrayList<>();

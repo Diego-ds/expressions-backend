@@ -63,7 +63,7 @@ public class RowServiceTest {
         	Bson filter = Filters.eq("item", "def");
         	
         	when(repo.customQuery(filter)).thenReturn(null);
-        	service.applyQuery("item = def");
+        	service.applyQuery("item = 'def'");
         	
         	verify(repo, times(1)).customQuery(filter);
         }
@@ -75,7 +75,7 @@ public class RowServiceTest {
         	Bson filter = Filters.ne("type", "food");
         	
         	when(repo.customQuery(filter)).thenReturn(null);
-        	service.applyQuery("type != food");
+        	service.applyQuery("type != 'food'");
         	
         	verify(repo, times(1)).customQuery(filter);
         }
@@ -213,7 +213,7 @@ public class RowServiceTest {
     	@Test
         void booleanEqualsThanColumnQueryTest() {
 
-        	Bson filter = Filters.where("this.natural = this.perishable");
+        	Bson filter = Filters.where("this.natural == this.perishable");
         	
         	when(repo.customQuery(filter)).thenReturn(null);
         	service.applyQuery("natural = $perishable");
@@ -245,7 +245,7 @@ public class RowServiceTest {
         void twoAndExpressionQueryTest() {
 
         	Bson filter = Filters.and(Filters.lt("quantity",5.0),
-        			Filters.where("this.perishable = this.natural"));
+        			Filters.where("this.perishable == this.natural"));
         	
         	when(repo.customQuery(filter)).thenReturn(null);
         	service.applyQuery("quantity < 5 and perishable = $natural");
@@ -261,7 +261,7 @@ public class RowServiceTest {
         			Filters.ne("type","meat"));
         	
         	when(repo.customQuery(filter)).thenReturn(null);
-        	service.applyQuery("kind = food or type != meat");
+        	service.applyQuery("kind = 'food' or type != 'meat'");
         	
         	verify(repo, times(1)).customQuery(filter);
         }
