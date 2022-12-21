@@ -32,10 +32,10 @@ public class RuleControllerImp implements IRuleController {
 
     @Override
     @GetMapping("/")
-    public ResponseEntity<List<Document>> findAll() {
+    public ResponseEntity<List<Rule>> findAll() {
     	
     	FindIterable<Document> queryResult = ruleService.findAll();
-    	ArrayList<Document> list = ruleService.IterableToList(queryResult);
+    	ArrayList<Rule> list = ruleService.IterableToList(queryResult);
         return ResponseEntity.ok().body(list);
     }
 

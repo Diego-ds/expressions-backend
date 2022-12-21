@@ -10,7 +10,7 @@ import com.perficient.expressions.model.Rule;
 
 public interface IRuleController {
 
-	public ResponseEntity<List<Document>> findAll();
+	public ResponseEntity<List<Rule>> findAll();
     public ResponseEntity<Boolean> delete(ObjectId id);
     public ResponseEntity<Boolean> create(Rule rule);
 }

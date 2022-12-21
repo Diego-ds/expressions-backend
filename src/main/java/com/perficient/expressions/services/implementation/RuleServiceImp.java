@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
+import com.perficient.expressions.model.Rule;
 import com.perficient.expressions.repositories.interfaces.IRule;
 import com.perficient.expressions.services.interfaces.IRuleService;
 
@@ -30,12 +31,20 @@ public class RuleServiceImp implements IRuleService {
 	}
 
 	@Override
-	public ArrayList<Document> IterableToList(FindIterable<Document> documents) {
+	public ArrayList<Rule> IterableToList(FindIterable<Document> documents) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-        ArrayList<Document> list = new ArrayList<>();
-
-        documents.map(d -> mapper.convertValue(d, Document.class)).into(list);
+        ArrayList<Rule> list = new ArrayList<>();
+        
+        for (Document doc : documents) {
+        	Rule rule = new Rule();
+        	rule.setId(doc.getObjectId("_id").toString());
+        	rule.setName(doc.getString("name"));
+        	rule.setRule(doc.getString("rule"));
+        	
+        	list.add(rule);
+        }
+        
         return list;
 	}
 

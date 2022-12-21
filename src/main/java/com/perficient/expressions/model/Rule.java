@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Rule {
 	
+	String id;
 	String name;
 	String rule;
 }

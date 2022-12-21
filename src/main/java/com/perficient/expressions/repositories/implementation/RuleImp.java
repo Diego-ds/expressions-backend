@@ -27,6 +27,7 @@ public class RuleImp implements IRule{
 
 	@Override
 	public Document delete(ObjectId id) {
+
 		MongoCollection<Document> collection = mongoTemplate.getCollection("rules");
 		Bson filter = Filters.eq("_id",id);
 		Document deleted = collection.findOneAndDelete(filter);
@@ -40,8 +41,4 @@ public class RuleImp implements IRule{
 		InsertOneResult result = collection.insertOne(doc);
 		return result.wasAcknowledged();
 	}
-	
-	
-	
-	
 }
