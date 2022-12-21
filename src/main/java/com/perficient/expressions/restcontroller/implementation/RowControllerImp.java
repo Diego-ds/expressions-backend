@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +37,14 @@ public class RowControllerImp implements IRowController {
 
     @Override
     @PostMapping("/")
-    public ResponseEntity<List<Document>> applyQuery(RuleQuery query) {
+    public ResponseEntity<List<Document>> applyQuery(@RequestBody RuleQuery query) {
     	
         ArrayList<Document> responseList = null;
 
         try{
             FindIterable<Document> response = rowService.applyQuery(query.getRule());
             responseList = rowService.IterableToList(response);
-        }catch(IllegalArgumentException e){
+        }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }
 

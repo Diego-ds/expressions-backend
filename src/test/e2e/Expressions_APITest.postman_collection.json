@@ -1,0 +1,584 @@
+{
+	"info": {
+		"_postman_id": "463b909a-c3f5-4497-b31a-41c04680ee3d",
+		"name": "Expressions API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24971165"
+	},
+	"item": [
+		{
+			"name": "Find All Rows Tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(9);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query Null Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query Empty Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query String expression",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(3);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \" and \" + \"item = \" + data[0].item, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(1);\r",
+							"    pm.expect(data[0].item).to.equal('abc');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \" and \" + \"item = \" + data[1].item, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(5);\r",
+							"    pm.expect(data[1].item).to.equal('abc');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[2]._id + \" and \" + \"item = \" + data[2].item, function () {\r",
+							"    pm.expect(data[2]._id).to.equal(8);\r",
+							"    pm.expect(data[2].item).to.equal('abc');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"item = 'abc'\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query Number Expression",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(3);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \" and \" + \"quantity = \" + data[0].quantity, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(6);\r",
+							"    pm.expect(data[0].quantity).to.equal(5);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \" and \" + \"quantity = \" + data[1].quantity, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(8);\r",
+							"    pm.expect(data[1].quantity).to.equal(5);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[2]._id + \" and \" + \"quantity = \" + data[2].quantity, function () {\r",
+							"    pm.expect(data[2]._id).to.equal(9);\r",
+							"    pm.expect(data[2].quantity).to.equal(5);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"quantity = 5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query Boolean Expression",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(4);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \" and \" + \"natural = \" + data[0].natural, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(2);\r",
+							"    pm.expect(data[0].natural).to.equal(false);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \" and \" + \"natural = \" + data[1].natural, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(4);\r",
+							"    pm.expect(data[1].natural).to.equal(false);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[2]._id + \" and \" + \"natural = \" + data[2].natural, function () {\r",
+							"    pm.expect(data[2]._id).to.equal(6);\r",
+							"    pm.expect(data[2].natural).to.equal(false);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[3]._id + \" and \" + \"natural = \" + data[3].natural, function () {\r",
+							"    pm.expect(data[3]._id).to.equal(7);\r",
+							"    pm.expect(data[3].natural).to.equal(false);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"natural = false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query Column Expression",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \" and \" + \"type = \" + data[0].type + \", \" + data[0].kind, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(2);\r",
+							"    pm.expect(data[0].type).to.equal(data[0].kind);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \" and \" + \"type = \" + data[1].type + \", \" + data[1].kind, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(9);\r",
+							"    pm.expect(data[1].type).to.equal(data[1].kind);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"kind = $type\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query \"And\" Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \" and \" + \"item = \" + data[0].item + \" and \" + \"quantity = \" + data[0].quantity, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(8);\r",
+							"    pm.expect(data[0].item).to.equal(\"abc\");\r",
+							"    pm.expect(data[0].quantity).to.equal(5);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"item = 'abc' and quantity = 5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query \"Or\" Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(5);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \", \" + \"item = \" + data[0].item + \", \" + \"quantity = \" + data[0].quantity, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \", \" + \"item = \" + data[1].item + \", \" + \"quantity = \" + data[1].quantity, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(5);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[2]._id + \", \" + \"item = \" + data[2].item + \", \" + \"quantity = \" + data[2].quantity, function () {\r",
+							"    pm.expect(data[2]._id).to.equal(6);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[3]._id + \", \" + \"item = \" + data[3].item + \", \" + \"quantity = \" + data[3].quantity, function () {\r",
+							"    pm.expect(data[3]._id).to.equal(8);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[4]._id + \", \" + \"item = \" + data[4].item + \", \" + \"quantity = \" + data[4].quantity, function () {\r",
+							"    pm.expect(data[4]._id).to.equal(9);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"item = 'abc' or quantity = 5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query 3 Expression Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \", \" + \"item = \" + data[0].item + \", \" + \"quantity = \" + data[0].quantity + \", \" + \"type = \" + data[0].type, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(1);\r",
+							"    pm.expect(data[0].type).to.equal('liquid');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[1]._id + \", \" + \"item = \" + data[1].item + \", \" + \"quantity = \" + data[1].quantity + \", \" + \"type = \" + data[1].type, function () {\r",
+							"    pm.expect(data[1]._id).to.equal(6);\r",
+							"    pm.expect(data[0].type).to.equal('liquid');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"item = 'abc' or quantity = 5 and type = 'liquid'\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Query 4 Expression Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Rows returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID = \" + data[0]._id + \", \" + \"item = \" + data[0].item + \", \" + \"quantity = \" + data[0].quantity + \", \" + \"type = \" + data[0].type + \", \" + \"kind = \" + data[0].kind, function () {\r",
+							"    pm.expect(data[0]._id).to.equal(6);\r",
+							"    pm.expect(data[0].type).to.equal('liquid');\r",
+							"    pm.expect(data[0].kind).to.equal('acid');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rule\":\"item = 'abc' or quantity = 5 and type = 'liquid' and kind = 'acid'\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "ec2-44-211-244-217.compute-1.amazonaws.com:8080/api/v1/rows",
+			"type": "string"
+		},
+		{
+			"key": "ruleid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
