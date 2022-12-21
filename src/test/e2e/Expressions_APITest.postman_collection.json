@@ -597,32 +597,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"rule\":\"ajfasdlagkaga\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -648,7 +622,12 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:8080/api/v1/rows",
+			"value": "ec2-44-211-244-217.compute-1.amazonaws.com:8080/api/v1/rows",
+			"type": "string"
+		},
+		{
+			"key": "ruleid",
+			"value": "",
 			"type": "string"
 		}
 	]
