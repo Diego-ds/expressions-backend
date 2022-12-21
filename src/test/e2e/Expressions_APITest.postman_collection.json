@@ -648,7 +648,7 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:8080/api/v1/rows",
+			"value": "ec2-44-211-244-217.compute-1.amazonaws.com:8080/api/v1/rows",
 			"type": "string"
 		}
 	]
