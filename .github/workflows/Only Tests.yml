@@ -36,3 +36,9 @@ jobs:
         
       - name: Testing and coverage
         run: mvn clean install
+
+      - name: Newman
+        uses: matt-ball/newman-action@master
+        with:
+          collection: src/test/e2e/Expressions_APITest.postman_collection.json
+          environment: src/test/e2e/Test.postman_environment.json 
